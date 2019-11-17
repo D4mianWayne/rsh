@@ -1,7 +1,17 @@
 import socket
 import sys
 from urllib.parse import quote_plus, urlencode
+import json
 
+def parse_for_file(shell, lhost, lport):
+    with open("core/shell.json", 'r') as f:
+        data = json.load(f)
+        sh = data[shell][0]
+        cmd = sh.replace("[IPADDR]", lhost)
+        cmd = cmd.replace("[PORT]", lport)
+        offset = cmd.find("'") + 1
+        cmd = cmd[offset:-2]
+    return cmd
 
 def validatePort(port):
     """Validate port number entered"""
